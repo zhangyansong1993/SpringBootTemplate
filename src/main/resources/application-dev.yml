@@ -1,3 +1,4 @@
+topic: iams-test
 server:
   port: 8080
 
@@ -34,11 +35,15 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       #在/usr/local/etc/kafka/consumer.properties中有配置
       group-id: group-test
+  redis:
+    host: 192.168.0.128
+    port: 6379
+    password:
 
-topic: iams-test
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.zys.dao
   configuration:
+      map-underscore-to-camel-case: true
       call-setters-on-nulls: true #返回值map时，显示为null的字段
