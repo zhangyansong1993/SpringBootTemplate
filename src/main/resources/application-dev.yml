@@ -1,8 +1,17 @@
-topic: iams-test
 server:
   port: 8080
 
 spring:
+  application:
+    name: SpringBoot-zys
+  elasticsearch:
+     rest:
+      uris: [192.168.0.128:9200]
+#  使用springdata模板使用以下配置
+#  data:
+#    elasticsearch:
+#      cluster-name: docker-cluster
+#      cluster-nodes: 192.168.0.128:9300
   datasource:
     username: root
     password: 123456
@@ -39,6 +48,20 @@ spring:
     host: 192.168.0.128
     port: 6379
     password:
+
+
+eureka:
+  instance:
+    prefer-ip-address: true #注册服务的时候使用ip地址
+    instance-id: SpringBoot-zys
+  client:
+    service-url:
+     defaultZoneL: http://192.168.0.42:8761/eureka/
+
+info:
+  app.name: SpringBoot-zys
+  company.name: www.zys.com
+  build.artifactId: SpringBoot
 
 
 mybatis:

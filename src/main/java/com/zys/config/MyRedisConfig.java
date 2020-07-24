@@ -35,15 +35,15 @@ public class MyRedisConfig {
      * 自定义缓存管理器，使用redis缓存管理器
      * 新的实体类需要再配置一份
      * @param myRedisTemplate
-     * @return
+     * @return 2.0springboot不支持
      */
-    @Bean
-    public RedisCacheManager myRedisCacheManager(RedisTemplate<Object, UserBean> myRedisTemplate) {
-        RedisCacheManager redisCacheManager = new RedisCacheManager(myRedisTemplate);
-        redisCacheManager.setUsePrefix(true);
-        return redisCacheManager;
-    }
-
+//    @Bean
+//    public RedisCacheManager myRedisCacheManager(RedisTemplate<Object, UserBean> myRedisTemplate) {
+//        RedisCacheManager redisCacheManager = new RedisCacheManager(myRedisTemplate);
+//        redisCacheManager.setUsePrefix(true);
+//        return redisCacheManager;
+//    }
+//
 //    @Primary //多个Template需要指定一个默认的
 //    @Bean
 //    public RedisCacheManager cacheManager(RedisTemplate<Object, Object> redisTemplate) {
