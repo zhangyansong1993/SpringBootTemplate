@@ -2,12 +2,11 @@ package com.zys.template;
 
 import com.alibaba.fastjson.JSONObject;
 import org.elasticsearch.action.search.*;
-import org.elasticsearch.action.support.IndicesOptions;
 import org.elasticsearch.client.RequestOptions;
-
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.Scroll;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -19,6 +18,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+
 
 @Component
 public class BaseElasticService {
@@ -26,8 +27,6 @@ public class BaseElasticService {
     private Logger log = LoggerFactory.getLogger(BaseElasticService.class);
     @Autowired
     private RestHighLevelClient restHighLevelClient;
-
-
 
 
     /**
@@ -66,4 +65,16 @@ public class BaseElasticService {
         return res;
     }
 
+    /**
+     * 调用模板
+     */
+    public void test() {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        boolQueryBuilder.must(termQuery("order_type.keyword", "故障工单"));
+        boolQueryBuilder.must(termQuery("order_status", "2"));
+        searchSourceBuilder.query(boolQueryBuilder);
+        List<JSONObject> list = search("iams_ncolog_order*", searchSourceBuilder);
+
+    }
 }
