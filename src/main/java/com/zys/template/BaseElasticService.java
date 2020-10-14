@@ -21,7 +21,7 @@ import java.util.List;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 
-@Component
+//@Component
 public class BaseElasticService {
 
     private Logger log = LoggerFactory.getLogger(BaseElasticService.class);

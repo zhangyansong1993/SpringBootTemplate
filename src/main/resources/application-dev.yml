@@ -4,9 +4,9 @@ server:
 spring:
   application:
     name: SpringBoot-zys
-  elasticsearch:
-     rest:
-      uris: [192.168.109.130:9200]
+#  elasticsearch:
+#     rest:
+#      uris: [192.168.109.130:9200]
 #  使用springdata模板使用以下配置
 #  data:
 #    elasticsearch:
@@ -44,10 +44,10 @@ spring:
 #      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 #      #在/usr/local/etc/kafka/consumer.properties中有配置
 #      group-id: group-test
-#  redis:
-#    host: 192.168.0.128
-#    port: 6379
-#    password:
+  redis:
+    host: 192.168.75.128
+    port: 6379
+    password: 123456
 #
 #
 #eureka:
