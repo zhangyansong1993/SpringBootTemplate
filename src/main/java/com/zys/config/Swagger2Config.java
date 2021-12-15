@@ -14,17 +14,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 import java.util.List;
- 
+
 //参考：http://blog.csdn.net/catoop/article/details/50668896
 
 /**
  * @author xiebq
- *
+ * http://localhost:8080/swagger-ui.html
  */
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
- 
+
     @Bean
     public Docket createRestApi() {
         List<Parameter> pars = new ArrayList<Parameter>();
@@ -37,7 +37,7 @@ public class Swagger2Config {
                 .globalOperationParameters(pars)
                 .apiInfo(apiInfo());
     }
- 
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("SpringBoot")
@@ -45,5 +45,5 @@ public class Swagger2Config {
                 .version("1.0")
                 .build();
     }
- 
+
 }

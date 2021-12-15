@@ -12,12 +12,13 @@ import java.util.concurrent.Executor;
 @EnableAsync
 public class AsyncConfig {
 
-    /*多线程、多任务
-  此处成员变量应该使用@Value从配置中读取
-   */
+    /**
+     * 多线程、多任务
+     */
     private int corePoolSize = 5;
     private int maxPoolSize = 100;
     private int queueCapacity = 5;
+
     @Bean
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
