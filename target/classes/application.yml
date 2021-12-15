@@ -1,0 +1,19 @@
+#!/bin/bash
+#nohup java -jar Xmx128m springboot.jar --spring.profiles.active=prod &
+#docker启动容器
+#apt-get update，apt-get install -y vim  解决容器中不能使用vim命令问题
+#docker exec -it es /bin/bash 进入docker容器
+#docker run --name mysql -d -it -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql:5.7
+#docker run -d -p 6379:6379 --name redis docker.io/redis
+#docker run -d --name es -e ES_JAVA_OPTS="-Xms256m -Xmx256m" -p 9200:9200 -p 9300:9300 -p 5601:5601  -e "discovery.type=single-node" es
+#docker run -d -e ELASTICSEARCH_URL=http://192.168.0.128:9200 --name kibana --network=container:es kibana:7.3.0
+#docker run -d --name es_head -p 9100:9100 mobz/elasticsearch-head:5
+#flume启动agent
+#nohup bin/flume-ng agent -c conf/ -f job/kafka-flume-logger.conf -n a1 &
+
+
+spring:
+  profiles:
+    active: dev
+
+
