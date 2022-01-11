@@ -11,7 +11,7 @@
 
     <groupId>com.zys</groupId>
     <artifactId>SpringBootTemplate</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>SpringBootTemplate</name>
     <description>Demo project for Spring Boot</description>
 
@@ -29,16 +29,20 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+<!--            依赖范围：test测试类中可以使用不参与打包、runtime只参与打包代码中 无法/不使用例如jdbc、mysql驱动
+                provided代码中测试中可以使用不参与打包-->
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
+<!--            <optional>true</optional> true项目之间不用传递依赖，例如本项目被其他项目作为依赖引用，不用传递此依赖上级引用不会看到、用到此依赖-->
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -60,6 +64,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.0.8</version>
+            <scope>runtime</scope>
         </dependency>
         <!--        数据库链接池-->
         <dependency>
@@ -120,22 +125,10 @@
     </dependencies>
 
     <build>
-        <finalName>SpringBootTemplate</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <delimiters>
-                        <delimit>$</delimit>
-                    </delimiters>
-                </configuration>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
