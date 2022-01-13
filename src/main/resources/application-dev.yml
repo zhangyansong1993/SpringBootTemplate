@@ -2,6 +2,8 @@ server:
   port: 8080
   ssl:
     key-store-type:
+  ssl:
+    key-password:
 
 spring:
   application:
