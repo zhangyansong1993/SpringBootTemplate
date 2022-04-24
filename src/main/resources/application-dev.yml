@@ -14,34 +14,41 @@ spring:
     username: root
     password: 123456
     url: jdbc:mysql://192.168.154.128:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
-#  kafka:
-#    bootstrap-servers: 192.168.0.241:9092,192.168.0.242:9092,192.168.0.243:9092
-#    #生产者的配置，大部分我们可以使用默认的，这里列出几个比较重要的属性
-#    producer:
-#      #每批次发送消息的数量
-#      batch-size: 16
-#      #设置大于0的值将使客户端重新发送任何数据，一旦这些数据发送失败。注意，这些重试与客户端接收到发送错误时的重试没有什么不同。允许重试将潜在的改变数据的顺序，如果这两个消息记录都是发送到同一个partition，则第一个消息失败第二个发送成功，则第二条消息会比第一条消息出现要早。
-#      retries: 0
-#      #producer可以用来缓存数据的内存大小。如果数据产生速度大于向broker发送的速度，producer会阻塞或者抛出异常，以“block.on.buffer.full”来表明。这项设置将和producer能够使用的总内存相关，但并不是一个硬性的限制，因为不是producer使用的所有内存都是用于缓存。一些额外的内存会用于压缩（如果引入压缩机制），同样还有一些用于维护请求。
-#      buffer-memory: 33554432
-#      #key序列化方式
-#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-#    #消费者的配置
-#    consumer:
-#      #Kafka中没有初始偏移或如果当前偏移在服务器上不再存在时,默认区最新 ，有三个选项 【latest, earliest, none】
-#      auto-offset-reset: latest
-#      #是否开启自动提交
-#      enable-auto-commit: true
-#      #自动提交的时间间隔
-#      auto-commit-interval: 100
-#      #key的解码方式
-#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-#      #value的解码方式
-#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-#      #在/usr/local/etc/kafka/consumer.properties中有配置
-#      group-id: group-test
-
+  kafka:
+    bootstrap-servers: 192.168.154.128:9092,192.168.154.129:9092,192.168.154.130:9092
+    #生产者的配置，大部分我们可以使用默认的，这里列出几个比较重要的属性
+    producer:
+      #ack生产者发送数据等待broker返回ack机制，0不等待返回ack，1等待leader写入后成功后返回ack，all或-1 等待leader（主分区）和follower（副本分区）全部写入成功后返回ack
+      acks: 1
+      #ack不为零时，需要等待broker返回ack，此项配置为等不到（等3s）返回ack的重试发送次数，设置大于0,则客户端会将发送失败的任务重新发送
+      retries: 3
+      #每批次发送消息的数量
+      batch-size: 16384
+      #producer可以用来缓存数据的内存大小。如果数据产生速度大于向broker发送的速度，producer会阻塞或者抛出异常，以“block.on.buffer.full”来表明。这项设置将和producer能够使用的总内存相关，但并不是一个硬性的限制，因为不是producer使用的所有内存都是用于缓存。一些额外的内存会用于压缩（如果引入压缩机制），同样还有一些用于维护请求。
+      buffer-memory: 33554432
+      #key序列化方式
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    #消费者的配置
+    consumer:
+      #Kafka中没有初始偏移或如果当前偏移在服务器上不再存在时,默认取最新 ，有三个选项 【latest(消费最新数据), earliest(从头消费数据), none】
+      auto-offset-reset: earliest
+      #是否开启自动提交
+      enable-auto-commit: false
+      #自动提交的时间间隔
+      auto-commit-interval: 100
+      #消费者一次消费多少条数据（一次拉取不到500条会多次拉取，多次拉取总时长超过1s就不再继续拉取；数据量少可以设置低值，减少多次拉取次数提高效率）
+      max-poll-records: 500
+      #key的解码方式
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      #value的解码方式
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: group-test
+    #springboot listener配置
+    listener:
+      #springboot 手动提交ack(offset)需要以下配置，否则spring boot会自动提交并且会报错
+      #listener会一次性poll max-poll-records:500条数据,manual_immediate处理完一条提交一次，manual处理完500条后提交一次
+      ack-mode: manual_immediate
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.zys.dao
