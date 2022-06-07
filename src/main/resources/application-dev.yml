@@ -8,6 +8,11 @@ spring:
     rest:
       uris: [ 192.168.154.128:9200,192.168.154.129:9200,192.168.154.130:9200 ]
       connection-timeout: 10000
+  redis:
+    cluster:
+      nodes: [192.168.154.128:7000,192.168.154.128:7001,192.168.154.129:7002,192.168.154.129:7003,192.168.154.130:7004,192.168.154.130:7005]
+    connect-timeout: 10000
+    client-type: jedis #springboot-data-redis默认lettuce，如想使用jedis引入依赖后指定客户端
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
@@ -49,9 +54,27 @@ spring:
       #springboot 手动提交ack(offset)需要以下配置，否则spring boot会自动提交并且会报错
       #listener会一次性poll max-poll-records:500条数据,manual_immediate处理完一条提交一次，manual处理完500条后提交一次
       ack-mode: manual_immediate
-mybatis:
-  mapper-locations: classpath:mapper/*Mapper.xml
-  type-aliases-package: com.zys.dao
-  configuration:
-    map-underscore-to-camel-case: true
-    call-setters-on-nulls: true #返回值map时，显示为null的字段
+
+
+#mybatis: #1.使用mybatis后无需配置一下项
+#  mapper-locations: classpath:mapper/*Mapper.xml #mybatis的sql映射文件必须匹配Mapper.xml结尾，否则抛BindingExceptio异常，也可配置为*.xml
+#  type-aliases-package: com.zys.dao
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    call-setters-on-nulls: true #返回值map时，显示为null的字段
+
+#2: mybatis-plus自动扫描resources/mapper下面的所有 xml文件,如要改动需以下配置
+#mybatis-plus:
+#  config-location: classpath*:/mapper/**/*.xml #默认配置
+
+#actuator监控 相关配置
+management:
+  endpoints: #所有端点配置
+    enabled-by-default: false #是否开启所有监控端点
+    web:
+      exposure:
+        include: '*' #以web方式暴露所有端点
+  endpoint: #单个端点配置
+    health: #健康状态端点
+      show-details: always #展示详细信息
+      enabled: true #开始此端点

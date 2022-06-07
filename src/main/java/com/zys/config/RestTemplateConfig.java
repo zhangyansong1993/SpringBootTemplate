@@ -19,12 +19,15 @@ import java.security.cert.X509Certificate;
 
 
 /**
- * Created by zhangyansong on 2020/10/19.
+ * Created by zhangyansong on 2020/10/19
+ * @Configuration(proxyBeanMethods = false),默认true，proxyBeanMethods 代理bean的方法，true为full模式，false为lite模式
+ * true时：springboot启动时会把bean注册到容器中，外部调用的是容器中bean，如和其他bean依赖时需要为true
+ * false时：springboot不会代理bean不把bean注册到容器中，外部调用bean每次都会创建一个新的对象
+ * false优势：如果bean不和其他bean依赖，可以设置为false，springboot启动时就不会代理和检查bean提告启动速度
  */
 @Configuration
 public class RestTemplateConfig {
-    @Qualifier("myRestTemplate")
-    @Bean
+    @Bean("myRestTemplate") //注入到容器中的bean默认为名为方法名，也可在bean注解中指定名字
     public RestTemplate myRestTemplate() throws Exception {
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         factory.setConnectionRequestTimeout(30000);

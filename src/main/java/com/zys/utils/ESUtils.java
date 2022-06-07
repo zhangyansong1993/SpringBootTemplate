@@ -365,7 +365,7 @@ public class ESUtils {
      * 聚合查询
      */
     public List<Map<String, Object>> grouping(String indexName) {
-        // 查询条件,指定时间并过滤指定字段值
+        // 查询条件,指定时间并过滤指定字段值field根据字段分组，ageGroup分组名称，自定义
         SearchRequest searchRequest = new SearchRequest(indexName);
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         AggregationBuilder field = AggregationBuilders.terms("ageGroup").field("age");
