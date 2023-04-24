@@ -56,7 +56,7 @@ spring:
       ack-mode: manual_immediate
 
 
-#mybatis: #1.使用mybatis后无需配置一下项
+#mybatis: #1.使用mybatis-plus后无需配置以下项
 #  mapper-locations: classpath:mapper/*Mapper.xml #mybatis的sql映射文件必须匹配Mapper.xml结尾，否则抛BindingExceptio异常，也可配置为*.xml
 #  type-aliases-package: com.zys.dao
 #  configuration:
